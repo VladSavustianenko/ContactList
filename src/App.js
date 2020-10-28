@@ -1,25 +1,33 @@
-import logo from './logo.svg';
-import './App.css';
+import React, {Component} from 'react'
+import {BrowserRouter, Switch, Route} from 'react-router-dom'
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+import List from './components/contactList'
+import Details from './components/contactDetails'
+
+class App extends Component {
+  constructor() {
+    super()
+    this.state = {
+      detail: null
+    }
+
+    this.detailHandler = this.detailHandler.bind(this)
+  }
+
+  detailHandler(id) {
+    this.setState({detail: id})
+  }
+
+  render() {
+    return (
+      <BrowserRouter>
+        <Switch>
+          <Route path='/' exact><List detailHandler={this.detailHandler} /></Route>
+          {this.state.detail ? <Route path='/'><Details id={this.state.detail} /></Route> : null}
+        </Switch>
+      </BrowserRouter>
+    )
+  }
 }
 
-export default App;
+export default App
